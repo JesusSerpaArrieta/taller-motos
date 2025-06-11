@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   db:
     image: mysql:8.0
@@ -31,9 +30,9 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./frontend:/app # Monta todo para hot-reload
+      - ./frontend/src:/app/src  # Hot-reload para desarrollo
     environment:
-      - VITE_API_URL=http://backend:3000
+      - VITE_API_URL=http://localhost:3000  # Cambia esto si usas Docker en producción
     depends_on:
       - backend
     networks:
