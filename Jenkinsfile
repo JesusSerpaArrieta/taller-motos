@@ -1,63 +1,34 @@
 pipeline {
-    agent any
+  agent any
 
-    stages {
+  environment {
+    COMPOSE_PROJECT_NAME = "taller_motos"
+  }
 
-        stage('Preparar entorno') {
-            steps {
-                echo 'Clonando repositorio desde GitHub (ya lo hace Jenkins si está bien configurado)'
-            }
-        }
-
-        stage('Instalar dependencias Frontend') {
-            steps {
-                dir('frontend') {
-                    echo 'Instalando dependencias del frontend...'
-                    bat 'npm install'
-                }
-            }
-        }
-
-        stage('Instalar dependencias Backend') {
-            steps {
-                dir('backend') {
-                    echo 'Instalando dependencias del backend...'
-                    bat 'npm install'
-                }
-            }
-        }
-
-        stage('Ejecutar pruebas') {
-            steps {
-                dir('frontend') {
-                    echo 'Ejecutando pruebas del frontend (si existen)...'
-                    bat 'npm test || exit 0'
-                }
-            }
-        }
-
-        stage('Construir imagen Docker') {
-            steps {
-                echo 'Construyendo imágenes Docker...'
-                bat 'docker-compose build'
-            }
-        }
-
-        stage('Desplegar con Docker Compose') {
-            steps {
-                echo 'Desplegando servicios...'
-                bat 'docker-compose down'
-                bat 'docker-compose up -d'
-            }
-        }
+  stages {
+    stage('Clonar repositorio') {
+      steps {
+        git 'https://turepo.git' // Cambia por tu repo
+      }
     }
 
-    post {
-        success {
-            echo '✅ CI/CD ejecutado correctamente.'
-        }
-        failure {
-            echo '❌ Algo falló durante el pipeline.'
-        }
+    stage('Levantar servicios') {
+      steps {
+        sh 'docker-compose down'      // Baja si ya estaba corriendo
+        sh 'docker-compose up --build -d'
+      }
     }
+
+    stage('Verificar servicios') {
+      steps {
+        sh 'docker ps'
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'Pipeline finalizado.'
+    }
+  }
 }
