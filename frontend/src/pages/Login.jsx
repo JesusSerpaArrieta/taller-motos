@@ -44,7 +44,7 @@ export default function Login() {
         </form>
 
         <div style={styles.footer}>
-          <Link to="/Registro" style={styles.primaryButton}>Registrarte</Link> <br /> <br />
+          <Link to="/Registro" style={styles.primaryButton}>¡¡Registrarte!!</Link> <br /> <br />
           <Link to="/Inicio" style={styles.link}>Volver al inicio</Link>
           
         </div>
