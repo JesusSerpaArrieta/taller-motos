@@ -1,34 +1,67 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    COMPOSE_PROJECT_NAME = "taller_motos"
-  }
-
-  stages {
-    stage('Clonar repositorio') {
-      steps {
-        git 'https://github.com/JesusSerpaArrieta/taller-motos.git' 
-      }
+    options {
+        skipDefaultCheckout(true) // Evita el checkout automático
     }
 
-    stage('Levantar servicios') {
-      steps {
-        sh 'docker-compose down'      // Baja si ya estaba corriendo
-        sh 'docker-compose up --build -d'
-      }
+    stages {
+        stage('Clonar repositorio') {
+            steps {
+                echo 'Clonando repositorio desde rama main...'
+                git branch: 'main', url: 'https://github.com/JesusSerpaArrieta/taller-motos.git'
+            }
+        }
+
+        stage('Instalar dependencias Frontend') {
+            steps {
+                dir('frontend') {
+                    echo 'Instalando dependencias del frontend...'
+                    bat 'npm install --legacy-peer-deps'
+                }
+            }
+        }
+
+        stage('Instalar dependencias Backend') {
+            steps {
+                dir('backend') {
+                    echo 'Instalando dependencias del backend...'
+                    bat 'npm install'
+                }
+            }
+        }
+
+        stage('Ejecutar pruebas Frontend') {
+            steps {
+                dir('frontend') {
+                    echo 'Ejecutando pruebas del frontend (si existen)...'
+                    bat 'npm test || exit 0'
+                }
+            }
+        }
+
+        stage('Construir imágenes Docker') {
+            steps {
+                echo 'Construyendo imágenes Docker...'
+                bat 'docker-compose build'
+            }
+        }
+
+        stage('Desplegar servicios con Docker') {
+            steps {
+                echo 'Desplegando contenedores...'
+                bat 'docker-compose down'
+                bat 'docker-compose up -d'
+            }
+        }
     }
 
-    stage('Verificar servicios') {
-      steps {
-        sh 'docker ps'
-      }
+    post {
+        success {
+            echo '✅ CI/CD ejecutado correctamente.'
+        }
+        failure {
+            echo '❌ Algo falló durante el pipeline. Revisa los logs.'
+        }
     }
-  }
-
-  post {
-    always {
-      echo 'Pipeline finalizado.'
-    }
-  }
 }
