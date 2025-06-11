@@ -1,17 +1,18 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /app
 
-# Copia primero solo los archivos esenciales para dependencias
-COPY package.json ./
+# Copia el package.json y package-lock.json
+COPY package*.json ./
 
-# Instala dependencias (generará package-lock.json automáticamente)
-RUN npm install --legacy-peer-deps
+# Instala TODAS las dependencias (incluyendo devDependencies)
+RUN npm install
 
-# Ahora copia el resto incluyendo el package-lock.json generado
+# Copia el resto del código
 COPY . .
 
-ENV VITE_HOST=0.0.0.0
+# Expone el puerto de Vite
 EXPOSE 5173
 
+# Comando para correr Vite en modo dev
 CMD ["npm", "run", "dev"]
