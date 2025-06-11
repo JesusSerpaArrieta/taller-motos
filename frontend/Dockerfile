@@ -2,16 +2,19 @@ FROM node:18
 
 WORKDIR /app
 
-# Copia primero solo los archivos esenciales para dependencias
+# Variables de entorno necesarias
+ENV HOST=0.0.0.0
+ENV VITE_API_URL=http://backend:3000
+
+# Copia archivos para instalar dependencias primero
 COPY package.json ./
 
-# Instala dependencias (generará package-lock.json automáticamente)
+# Instala dependencias
 RUN npm install --legacy-peer-deps
 
-# Ahora copia el resto incluyendo el package-lock.json generado
+# Copia el resto de los archivos
 COPY . .
 
-ENV VITE_HOST=0.0.0.0
 EXPOSE 5173
 
 CMD ["npm", "run", "dev"]
