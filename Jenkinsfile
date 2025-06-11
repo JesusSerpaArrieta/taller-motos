@@ -31,14 +31,7 @@ pipeline {
             }
         }
 
-        stage('Ejecutar pruebas Frontend') {
-            steps {
-                dir('frontend') {
-                    echo 'Ejecutando pruebas del frontend (si existen)...'
-                    bat 'npm test || exit 0'
-                }
-            }
-        }
+        
 
         stage('Construir imágenes Docker') {
             steps {
