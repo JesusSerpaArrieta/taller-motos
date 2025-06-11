@@ -1,16 +1,11 @@
 pipeline {
     agent any
 
-    environment {
-        // Puedes definir variables globales aquí si las necesitas
-    }
-
     stages {
 
         stage('Preparar entorno') {
             steps {
                 echo 'Clonando repositorio desde GitHub (ya lo hace Jenkins si está bien configurado)'
-                // Jenkins ya clona el repo automáticamente si está configurado con SCM
             }
         }
 
@@ -27,16 +22,15 @@ pipeline {
             steps {
                 dir('backend') {
                     echo 'Instalando dependencias del backend...'
-                    bat 'npm install' // Asumiendo que usas Node.js en backend también
+                    bat 'npm install'
                 }
             }
         }
 
         stage('Ejecutar pruebas') {
             steps {
-                echo 'Ejecutando pruebas...'
                 dir('frontend') {
-                    // Solo es un placeholder. Debes definir pruebas si las tienes.
+                    echo 'Ejecutando pruebas del frontend (si existen)...'
                     bat 'npm test || exit 0'
                 }
             }
