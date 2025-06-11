@@ -2,17 +2,20 @@ FROM node:20
 
 WORKDIR /app
 
-# Copia el package.json y package-lock.json
+# Copia solo los archivos de dependencias primero
 COPY package*.json ./
 
-# Instala TODAS las dependencias (incluyendo devDependencies)
+# Instala Vite globalmente
+RUN npm install -g vite
+
+# Instala las dependencias del proyecto (dev + prod)
 RUN npm install
 
 # Copia el resto del código
 COPY . .
 
-# Expone el puerto de Vite
+# Expone el puerto predeterminado de Vite
 EXPOSE 5173
 
-# Comando para correr Vite en modo dev
-CMD ["npm", "run", "dev"]
+# Usa Vite global
+CMD ["vite"]
