@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Clonar repositorio') {
       steps {
-        git 'https://turepo.git' // Cambia por tu repo
+        git 'https://github.com/JesusSerpaArrieta/taller-motos.git' 
       }
     }
 
