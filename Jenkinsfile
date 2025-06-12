@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
 
     options {
@@ -31,7 +31,14 @@ pipeline {
             }
         }
 
-        
+        stage('Ejecutar pruebas del Backend') {
+            steps {
+                dir('backend') {
+                    echo 'Ejecutando pruebas unitarias del backend...'
+                    bat 'npx jest'
+                }
+            }
+        }
 
         stage('Construir imágenes Docker') {
             steps {
