@@ -2,7 +2,7 @@ const { sumar, restar, multiplicar, dividir } = require("../calculadora");
 
 describe('calculadora.js', () => {
     it('invocar suma con 1 y 1 retorna 2', () => {
-        const resultado = sumar(1, 1);
+        const resultado = sumar(14, 1);
         expect(resultado).toBe(2);
     });
 
