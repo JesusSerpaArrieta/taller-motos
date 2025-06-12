@@ -40,11 +40,11 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             style={styles.input}
           />
-          <button type="submit" style={styles.primaryButton}>¡Entrar!</button>
+          <button type="submit" style={styles.primaryButton}>¡¡Entrar!!</button>
         </form>
 
         <div style={styles.footer}>
-          <Link to="/Registro" style={styles.primaryButton}>¡Registrarte!</Link> <br /> <br />
+          <Link to="/Registro" style={styles.primaryButton}>¡¡Registrarte!!</Link> <br /> <br />
           <Link to="/Inicio" style={styles.link}>Volver al inicio</Link>
           
         </div>
