@@ -22,7 +22,7 @@ export default function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.loginBox}>
-        <h2 style={styles.title}>Iniciar Sesión  </h2>
+        <h2 style={styles.title}>Iniciar Sesión 2.0  </h2>
         {error && <p style={styles.error}>{error}</p>}
         
         <form onSubmit={handleSubmit} style={styles.form}>
